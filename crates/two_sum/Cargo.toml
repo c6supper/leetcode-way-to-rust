@@ -9,9 +9,15 @@ authors = ["Calvin <c6supper@hotmail.com>"]
 
 [dependencies]
 
-[[bin]]
+[dev-dependencies]
+criterion = "0.4"
+
+[[bench]]
+name = "benches"
+harness = false
+
+[lib]
 name = "two_sum"
 test = true            # Is tested by default.
 doctest = true         # Documentation examples are tested by default.
-bench = true           # Is benchmarked by default.
 doc = true             # Is documented by default.
