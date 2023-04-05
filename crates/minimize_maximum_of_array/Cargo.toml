@@ -1,0 +1,16 @@
+[package]
+name = "minimize_maximum_of_array"
+version = "0.1.0"
+edition = "2021"
+
+authors = ["Calvin <c6supper@hotmail.com>"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[lib]
+name = "minimize_maximum_of_array"
+test = true            # Is tested by default.
+doctest = true         # Documentation examples are tested by default.
+doc = true             # Is documented by default.
