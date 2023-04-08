@@ -37,6 +37,18 @@ impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
         vec![]
     }
+
+    pub fn two_sum_inefficiency(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        for i in 0..nums.len() - 1 {
+            for ii in i + 1..nums.len() {
+                if target == nums[i] + nums[ii] {
+                    return vec![i.try_into().unwrap(), ii.try_into().unwrap()];
+                }
+            }
+        }
+
+        vec![]
+    }
 }
 
 #[cfg(test)]
@@ -45,12 +57,18 @@ mod tests {
 
     #[test]
     fn test_1() {
-        assert_eq!(vec![0, 1], Solution::two_sum(vec![2, 7, 11, 15], 9));
+        assert_eq!(
+            vec![0, 1],
+            Solution::two_sum_inefficiency(vec![2, 7, 11, 15], 9)
+        );
     }
 
     #[test]
     fn test_2() {
-        assert_eq!(vec![1, 2], Solution::two_sum(vec![3, 2, 4], 6));
+        assert_eq!(
+            vec![1, 2],
+            Solution::two_sum_inefficiency(vec![3, 2, 4], 6)
+        );
     }
 }
 

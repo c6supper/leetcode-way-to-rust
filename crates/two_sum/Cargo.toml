@@ -9,6 +9,13 @@ authors = ["Calvin <c6supper@hotmail.com>"]
 
 [dependencies]
 
+[dev-dependencies]
+criterion = { version = "0.4", features = ["html_reports"] }
+
+[[bench]]
+name = "benches"
+harness = false
+
 [[bin]]
 name = "two_sum"
 test = true            # Is tested by default.
