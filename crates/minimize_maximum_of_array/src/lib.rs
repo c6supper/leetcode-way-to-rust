@@ -43,12 +43,12 @@ pub struct Solution {}
 
 impl Solution {
     pub fn minimize_array_value(nums: Vec<i32>) -> i32 {
-        let (mut prefix_sum, mut min_max) = (0, 0);
+        let (mut prefix_sum, mut min_max) = (0u64, 0i32);
         for (i, num) in nums.iter().enumerate() {
-            prefix_sum = prefix_sum + num;
-            if (*num > min_max) {
-                min_max =
-                    (prefix_sum + *num) / (i + 1) + (*num > prefix_sum / i).;
+            prefix_sum = prefix_sum + *num as u64;
+            let cur_max = ((prefix_sum + i as u64) / (i as u64 + 1)) as i32;
+            if cur_max > min_max {
+                min_max = cur_max;
             }
         }
         min_max
@@ -80,7 +80,7 @@ mod tests {
     #[test]
     fn test_4() {
         assert_eq!(
-            16,
+            554808881,
             Solution::minimize_array_value(vec![
                 153096409, 343881218, 741913853, 343594218, 864722890,
                 354938680, 279386271, 616365038, 896106991, 540459582,
