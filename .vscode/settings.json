@@ -1,5 +1,8 @@
 {
   "cSpell.words": [
     "doctest"
+  ],
+  "rust-analyzer.linkedProjects": [
+    "\\crates\\two_sum\\Cargo.toml"
   ]
 }

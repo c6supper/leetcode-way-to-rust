@@ -42,33 +42,16 @@
 pub struct Solution {}
 
 impl Solution {
-    fn get_first_max(nums: &Vec<i32>) -> (usize, i32) {
-        let (mut index, mut max) = (0, -1);
-        for i in 0..nums.len() {
-            if nums[i] > max {
-                index = i;
-                max = nums[i];
-            }
-        }
-
-        return (index, max);
-    }
-
     pub fn minimize_array_value(nums: Vec<i32>) -> i32 {
-        let mut mut_nums = nums.clone();
-        loop {
-            let (maximum_index, maximum) = Solution::get_first_max(&mut_nums);
-            if maximum_index == 0
-                || maximum < 1
-                || mut_nums[maximum_index] <= mut_nums[0]
-            {
-                return maximum;
+        let (mut prefix_sum, mut min_max) = (0, 0);
+        for (i, num) in nums.iter().enumerate() {
+            prefix_sum = prefix_sum + num;
+            if (*num > min_max) {
+                min_max =
+                    (prefix_sum + *num) / (i + 1) + (*num > prefix_sum / i).;
             }
-            let sum = mut_nums[maximum_index] + mut_nums[maximum_index - 1];
-            mut_nums[maximum_index] = sum / 2;
-            mut_nums[maximum_index - 1] =
-                mut_nums[maximum_index] + i32::from(sum % 2 != 0)
         }
+        min_max
     }
 }
 
