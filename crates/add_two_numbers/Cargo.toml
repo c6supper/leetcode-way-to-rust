@@ -1,0 +1,24 @@
+[package]
+name = "add_two_numbers"
+version = "0.1.0"
+edition = "2021"
+
+authors = ["Calvin <c6supper@hotmail.com>"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+embed-doc-image = "0.1.4"
+
+[features]
+doc-images = []
+
+[package.metadata.docs.rs]
+# docs.rs uses a nightly compiler, so by instructing it to use our `doc-images` feature we
+# ensure that it will render any images that we may have in inner attribute documentation.
+features = ["doc-images"]
+
+[lib]
+name = "add_two_numbers"
+test = true            # Is tested by default.
+doc = true             # Is documented by default.

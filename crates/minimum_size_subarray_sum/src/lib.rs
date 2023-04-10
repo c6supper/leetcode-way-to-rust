@@ -8,16 +8,16 @@
 //!
 //! Example 1:
 //!
-//! Input: target = 7, nums = [2,3,1,2,4,3]
+//! Input: target = 7, nums = \[2,3,1,2,4,3\]
 //! Output: 2
-//! Explanation: The subarray [4,3] has the minimal length under the problem constraint.
+//! Explanation: The subarray \[4,3\] has the minimal length under the problem constraint.
 //! Example 2:
 //!
-//! Input: target = 4, nums = [1,4,4]
+//! Input: target = 4, nums = \[1,4,4\]
 //! Output: 1
 //! Example 3:
 //!
-//! Input: target = 11, nums = [1,1,1,1,1,1,1,1]
+//! Input: target = 11, nums = \[1,1,1,1,1,1,1,1\]
 //! Output: 0
 //!  
 //!
@@ -25,7 +25,7 @@
 //!
 //! 1 <= target <= 109
 //! 1 <= nums.length <= 105
-//! 1 <= nums[i] <= 104
+//! 1 <= nums\[i\] <= 104
 //!  
 //!
 //! Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log(n)).
