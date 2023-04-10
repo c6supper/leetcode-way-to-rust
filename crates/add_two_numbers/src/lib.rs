@@ -57,40 +57,32 @@ impl Solution {
         l1: Option<Box<ListNode>>,
         l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        let mut head = Some(Box::new(ListNode::new(0)));
-        if Solution::add_node_recursive(l1, l2, &head) > 0 {
-            // Some(Box::new(ListNode::new(1)))
-        }
-        head.unwrap().next
-    }
+        let mut result = vec![];
+        let (mut carry, mut sum) = (0, 0);
+        let (mut e1, mut e2) = (&l1, &l2);
 
-    fn add_node_recursive(
-        l1: Option<Box<ListNode>>,
-        l2: Option<Box<ListNode>>,
-        mut head: &Option<Box<ListNode>>,
-    ) -> i32 {
-        let mut carry = 0;
-        let mut sum = 0;
-
-        match (l1?, l2?) {
-            (Some(a), Some(b)) => {
-                carry = Solution::add_node_recursive(a.next, b.next, head);
-                sum = a.val + b.val + carry;
+        while e1.is_some() || e2.is_some() {
+            match (e1, e2) {
+                (Some(a), Some(b)) => {
+                    sum = a.val + b.val;
+                    e1 = &a.next;
+                    e2 = &b.next;
+                }
+                (None, Some(b)) => {
+                    sum = b.val;
+                    e2 = &b.next;
+                }
+                (Some(a), None) => {
+                    sum = a.val;
+                    e1 = &a.next;
+                }
+                _ => panic!("Wrong"),
             }
-            (None, Some(b)) => {
-                carry = Solution::add_node_recursive(None, b.next, head);
-                sum = b.val + carry;
-            }
-            (Some(a), None) => {
-                carry = Solution::add_node_recursive(a.next, None, head);
-                sum = a.val + carry;
-            }
-            _ => panic!("Wrong"),
+            sum += carry;
+            carry = sum / 10;
+            sum %= 10;
+            result.push(Some(Box::new(ListNode::new(sum))));
         }
-        let mut tmp = head;
-        head = &Some(Box::new(ListNode::new(sum)));
-        head.unwrap().next = tmp;
-        carry
     }
 }
 
