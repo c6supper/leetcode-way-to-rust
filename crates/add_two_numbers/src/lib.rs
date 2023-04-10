@@ -38,19 +38,28 @@ doc = ::embed_doc_image::embed_image!("example1", "resource/addtwonumber1.jpg"))
 //! 0 <= Node.val <= 9
 //! It is guaranteed that the list represents a number that does not have leading zeros.
 
+#[derive(PartialEq, Eq, Clone, Debug)]
+pub struct ListNode {
+    pub val: i32,
+    pub next: Option<Box<ListNode>>,
+}
+
+impl ListNode {
+    #[inline]
+    fn new(val: i32) -> Self {
+        ListNode { next: None, val }
+    }
+}
 pub struct Solution {}
 
 impl Solution {
-    pub fn minimize_array_value(nums: Vec<i32>) -> i32 {
-        let (mut prefix_sum, mut min_max) = (0u64, 0i32);
-        for (i, num) in nums.iter().enumerate() {
-            prefix_sum = prefix_sum + *num as u64;
-            let cur_max = ((prefix_sum + i as u64) / (i as u64 + 1)) as i32;
-            if cur_max > min_max {
-                min_max = cur_max;
-            }
-        }
-        min_max
+    pub fn add_two_numbers(
+        l1: Option<Box<ListNode>>,
+        l2: Option<Box<ListNode>>,
+    ) -> Option<Box<ListNode>> {
+        let mut sum_list = Some(Box::new(ListNode::new(0)));
+
+        sum_list
     }
 }
 
@@ -58,36 +67,14 @@ impl Solution {
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_1() {
-        assert_eq!(5, Solution::minimize_array_value(vec![3, 7, 1, 6]));
-    }
-
-    #[test]
-    fn test_2() {
-        assert_eq!(10, Solution::minimize_array_value(vec![10, 1]));
-    }
-
-    #[test]
-    fn test_3() {
-        assert_eq!(
-            16,
-            Solution::minimize_array_value(vec![13, 13, 20, 0, 8, 9, 9])
-        );
-    }
-
-    #[test]
-    fn test_4() {
-        assert_eq!(
-            554808881,
-            Solution::minimize_array_value(vec![
-                153096409, 343881218, 741913853, 343594218, 864722890,
-                354938680, 279386271, 616365038, 896106991, 540459582,
-                124304477, 856321779, 533947835, 590383040, 708653960,
-                928865842, 501462358, 113265076, 786991139, 83872665,
-                314304738, 719655858, 685019739, 773289565, 224287062,
-                961183249, 922185605, 437586814, 431957201, 622418600
-            ])
-        );
-    }
+    // #[test]
+    // fn test_1() {
+    //     assert_eq!(
+    //         5,
+    //         Solution::add_two_numbers(
+    //             vec![9, 9, 9, 9, 9, 9, 9],
+    //             vec![9, 9, 9, 9]
+    //         )
+    //     );
+    // }
 }
