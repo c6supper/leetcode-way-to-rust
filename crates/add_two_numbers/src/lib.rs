@@ -49,6 +49,23 @@ impl ListNode {
     fn new(val: i32) -> Self {
         ListNode { next: None, val }
     }
+
+    #[allow(dead_code)]
+    fn build(nums: Vec<i32>) -> Option<Box<ListNode>> {
+        let mut head = Some(Box::new(ListNode::new(-1)));
+        let mut tail = &mut head;
+        for num in nums.iter() {
+            tail = match tail.as_mut() {
+                Some(c) => {
+                    c.next = Some(Box::new(ListNode::new(*num)));
+                    &mut c.next
+                }
+                _ => unreachable!(),
+            };
+        }
+
+        head.unwrap().next
+    }
 }
 pub struct Solution {}
 
@@ -103,14 +120,36 @@ impl Solution {
 mod tests {
     use super::*;
 
-    // #[test]
-    // fn test_1() {
-    //     assert_eq!(
-    //         5,
-    //         Solution::add_two_numbers(
-    //             vec![9, 9, 9, 9, 9, 9, 9],
-    //             vec![9, 9, 9, 9]
-    //         )
-    //     );
-    // }
+    #[test]
+    fn test_1() {
+        assert_eq!(
+            ListNode::build(vec![8, 9, 9, 9, 0, 0, 0, 1]),
+            Solution::add_two_numbers(
+                ListNode::build(vec![9, 9, 9, 9, 9, 9, 9]),
+                ListNode::build(vec![9, 9, 9, 9])
+            )
+        );
+    }
+
+    #[test]
+    fn test_2() {
+        assert_eq!(
+            ListNode::build(vec![7, 0, 8]),
+            Solution::add_two_numbers(
+                ListNode::build(vec![2, 4, 3]),
+                ListNode::build(vec![5, 6, 4])
+            )
+        );
+    }
+
+    #[test]
+    fn test_3() {
+        assert_eq!(
+            ListNode::build(vec![0]),
+            Solution::add_two_numbers(
+                ListNode::build(vec![0]),
+                ListNode::build(vec![0])
+            )
+        );
+    }
 }
