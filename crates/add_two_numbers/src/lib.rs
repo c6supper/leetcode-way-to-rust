@@ -57,11 +57,13 @@ impl Solution {
         l1: Option<Box<ListNode>>,
         l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        let mut result = vec![];
-        let (mut carry, mut sum) = (0, 0);
+        let mut carry = 0;
+        let mut sum;
         let (mut e1, mut e2) = (&l1, &l2);
+        let mut head = Some(Box::new(ListNode::new(-1)));
+        let mut tail = &mut head;
 
-        while e1.is_some() || e2.is_some() {
+        while e1.is_some() || e2.is_some() || carry > 0 {
             match (e1, e2) {
                 (Some(a), Some(b)) => {
                     sum = a.val + b.val;
@@ -76,13 +78,24 @@ impl Solution {
                     sum = a.val;
                     e1 = &a.next;
                 }
-                _ => panic!("Wrong"),
+                (None, None) => sum = 0,
             }
             sum += carry;
             carry = sum / 10;
             sum %= 10;
-            result.push(Some(Box::new(ListNode::new(sum))));
+
+            tail = match tail.as_mut() {
+                Some(c) => {
+                    c.next = Some(Box::new(ListNode::new(sum)));
+                    &mut c.next
+                }
+                _ => unreachable!(),
+            };
+
+            println!("{}", sum);
         }
+
+        head.unwrap().next
     }
 }
 
