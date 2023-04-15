@@ -1,0 +1,13 @@
+[package]
+name = "simplify_path"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[lib]
+name = "simplify_path"
+test = true            # Is tested by default.
+doc = true             # Is documented by default.
