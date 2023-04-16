@@ -300,6 +300,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "longest_substring_no_repeat"
+version = "0.1.0"
+
+[[package]]
 name = "memoffset"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
