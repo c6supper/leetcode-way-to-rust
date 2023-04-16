@@ -37,15 +37,13 @@ impl Solution {
         let mut max_lens = 0;
 
         for (i,c) in s.chars().enumerate() {
-            if sub_map.contains_key(&c) {
-                while sub_map.pop_first(&c);
+            while sub_map.contains_key(&c) {
+                sub_map.pop_first();
             }
-            else {
-                sub_map.insert(c, i);
-                right = i;
-                if right - left > max_lens {
-                    max_lens = right - left;
-                }
+            sub_map.insert(c, i);
+            right = i;
+            if right - left > max_lens {
+                max_lens = right - left;
             }
         }
 
