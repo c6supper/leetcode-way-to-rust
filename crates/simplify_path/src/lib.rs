@@ -38,39 +38,106 @@
 //* path consists of English letters, digits, period '.', slash '/' or '_'.
 //* path is a valid absolute Unix path.
 
-enum Condition {
-    SingleSplash,
-    SingleSplash_SingleDot,
-    SingleDot,
-    DoubleDot,
-    Normal,
-}
+pub struct Solution {}
+
 impl Solution {
     pub fn simplify_path(path: String) -> String {
-        let mut canonical_path = vex![];
-        let mut condition = Condition::Normal;
-        for c in path.chars() {
-            canonical_path.push(c);
-            match condition {
-                Condition::Normal => match c {
-                    '/' => condition = Condition::SingleSplash,
-                    '.' => condition = Condition::SingleDot,
-                    _ => (),
-                },
-                Condition::SingleSplash => match c {
-                    '/' => canonical_path.pop(),
-                    '.' => condition = Condition::SingleSplash_SingleDot,
-                    _ => condition = Condition::Normal,
-                },
-                Condition::SingleSplash_SingleDot => match c {
-                    '/' => {
-                        canonical_path.pop();
-                        canonical_path.pop();
+        let mut stack = vec![""];
+        for current in path.split('/') {
+            match current {
+                ".." => {
+                    if stack.len() > 1 {
+                        stack.pop();
                     }
-                },
-                _ => if canonical_path.lens() > 2 {},
+                    continue;
+                }
+                "." | "" => {
+                    continue;
+                }
+                _ => stack.push(current),
             }
         }
-        String::from(canonical_path)
+
+        if stack.len() == 1 {
+            return "/".to_string();
+        }
+        stack.join("/")
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_1() {
+        assert_eq!(
+            String::from("/home"),
+            Solution::simplify_path(String::from("/home/"))
+        );
+    }
+
+    #[test]
+    fn test_2() {
+        assert_eq!(
+            String::from("/"),
+            Solution::simplify_path(String::from("/../"))
+        );
+    }
+
+    #[test]
+    fn test_3() {
+        assert_eq!(
+            String::from("/home/foo"),
+            Solution::simplify_path(String::from("/home//foo/"))
+        );
+    }
+
+    #[test]
+    fn test_4() {
+        assert_eq!(
+            String::from("/c"),
+            Solution::simplify_path(String::from("/a/./b/../../c/"))
+        );
+    }
+
+    #[test]
+    fn test_5() {
+        assert_eq!(
+            String::from("/..."),
+            Solution::simplify_path(String::from("/..."))
+        );
+    }
+
+    #[test]
+    fn test_6() {
+        assert_eq!(
+            String::from("/"),
+            Solution::simplify_path(String::from("/.."))
+        );
+    }
+
+    #[test]
+    fn test_7() {
+        assert_eq!(
+            String::from("/a"),
+            Solution::simplify_path(String::from("/a/."))
+        );
+    }
+
+    #[test]
+    fn test_8() {
+        assert_eq!(
+            String::from("/home/bar"),
+            Solution::simplify_path(String::from("/home/foo/./.././bar"))
+        );
+    }
+
+    #[test]
+    fn test_9() {
+        assert_eq!(
+            String::from("/a/b/c"),
+            Solution::simplify_path(String::from("/a//b////c/d//././/.."))
+        );
     }
 }
