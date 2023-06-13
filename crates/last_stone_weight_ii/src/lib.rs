@@ -33,10 +33,30 @@
 //* 1 <= stones.length <= 30
 //* 1 <= stones[i] <= 100
 
+use std::cmp::max;
+
 pub struct Solution {}
 
 impl Solution {
-    pub fn last_stone_weight_ii(stones: Vec<i32>) -> i32 {}
+    pub fn last_stone_weight_ii(stones: Vec<i32>) -> i32 {
+        let capacity: usize =
+            usize::try_from(stones.iter().sum::<i32>() / 2).unwrap();
+        let mut dp = vec![0; capacity + 1];
+        for i in 0..stones.len() {
+            let mut j: usize = capacity;
+            while j >= usize::try_from(stones[i]).unwrap() {
+                dp[j] = max(
+                    dp[j],
+                    dp[j - usize::try_from(stones[i]).unwrap()] + stones[i],
+                );
+                j -= 1
+            }
+        }
+        for (cap, max) in dp.iter().enumerate() {
+            println!("knapsack cap={cap}, max value={max}");
+        }
+        stones.iter().sum::<i32>() - 2 * dp[capacity]
+    }
 }
 
 #[cfg(test)]
