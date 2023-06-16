@@ -32,15 +32,21 @@ pub struct Solution {}
 
 impl Solution {
     pub fn find_target_sum_ways(nums: Vec<i32>, target: i32) -> i32 {
+        if (nums.iter().sum::<i32>() + target) % 2 != 0 || (nums.iter().sum::<i32>() + target) < 0{
+            return 0;
+        }
         let capacity: usize = (nums.iter().sum::<i32>() + target) as usize / 2;
-        let dp = Vec![0; capacity + 1];
+        let mut dp = vec![0; capacity + 1];
+        dp[0] = 1;
 
         for i in 0..nums.len() as usize {
-            let mut j = capacity;
+            let mut j = capacity as i32;
             while j >= nums[i] {
-                dp[j] = std::cmp::max(dp[j], dp[j - num[i]] + num[i]);
+                dp[j as usize] += dp[(j - nums[i]) as usize];
+                j -= 1;
             }
         }
+        dp[capacity]
     }
 }
 
@@ -56,5 +62,20 @@ mod tests {
     #[test]
     fn test_2() {
         assert_eq!(5, Solution::find_target_sum_ways(vec![1, 1, 1, 1, 1], 3));
+    }
+
+    #[test]
+    fn test_3() {
+        assert_eq!(0, Solution::find_target_sum_ways(vec![1, 1, 1, 1, 1], 99));
+    }
+
+    #[test]
+    fn test_4() {
+        assert_eq!(0, Solution::find_target_sum_ways(vec![1, 0], 2));
+    }
+
+    #[test]
+    fn test_5() {
+        assert_eq!(0, Solution::find_target_sum_ways(vec![100], -200));
     }
 }
