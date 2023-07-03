@@ -44,16 +44,6 @@ impl Solution {
         for j in 1 as usize..dp.len() {
             for i in 0..nums.len() {
                 if j >= nums[i] as usize {
-                    if cfg!(test) {
-                        println!(
-                        "j = {j}, i = {i}, num[{}] = {}, dp[{}] from {} to {}",
-                        i,
-                        nums[i],
-                        j,
-                        dp[j],
-                        dp[j] + dp[j - nums[i] as usize]
-                    )
-                    }
                     dp[j] += dp[j - nums[i] as usize];
                 }
             }
