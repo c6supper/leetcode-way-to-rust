@@ -30,23 +30,23 @@ pub struct Solution {}
 
 impl Solution {
     pub fn find_max_form(strs: Vec<String>, m: i32, n: i32) -> i32 {
-        let mut dp: Vec<u32> = vec![0; usize::try_from(capacity + 1).unwrap()];
+        let mut dp = vec![vec![0; n as usize + 1]; m as usize + 1];
 
-        for i in 0..weight.len() {
-            let mut j = usize::try_from(capacity).unwrap();
-            while j >= usize::try_from(weight[i]).unwrap() {
-                dp[j] = std::cmp::max(
-                    dp[j],
-                    dp[j - usize::try_from(weight[i]).unwrap()] + value[i],
-                );
-                j -= 1
+        for i in 0..strs.len() {
+            let zero_num = strs[i].matches('0').count();
+            let one_num = strs[i].matches('1').count();
+            for j in zero_num..(m as usize + 1) {
+                for k in one_num..(n as usize + 1) {
+                    dp[j][k] = std::cmp::max(
+                        dp[j][k],
+                        dp[j - zero_num][k - one_num] + 1,
+                    );
+                    println!("zero = {zero_num}, one = {one_num}, i={i}, j = {j}, k = {k}, str = {}, dp[{j}][{k}] = {}",strs[i],dp[j][k]);
+                }
             }
         }
 
-        for (cap, max) in dp.iter().enumerate() {
-            println!("knapsack cap={cap}, max value={max}");
-        }
-        dp[usize::try_from(capacity).unwrap()]
+        dp[m as usize][n as usize]
     }
 }
 
@@ -56,6 +56,31 @@ mod tests {
 
     #[test]
     fn test_1() {
-        assert_eq!(35, Solution::knapsack(vec![1, 3, 4], vec![15, 20, 30], 4));
+        assert_eq!(
+            2,
+            Solution::find_max_form(
+                vec!["10".to_string(), "0".to_string(), "1".to_string()],
+                1,
+                1
+            )
+        );
+    }
+
+    #[test]
+    fn test_2() {
+        assert_eq!(
+            4,
+            Solution::find_max_form(
+                vec![
+                    "10".to_string(),
+                    "0001".to_string(),
+                    "111001".to_string(),
+                    "1".to_string(),
+                    "0".to_string()
+                ],
+                5,
+                3
+            )
+        );
     }
 }
