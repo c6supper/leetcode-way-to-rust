@@ -35,14 +35,17 @@ impl Solution {
         for i in 0..strs.len() {
             let zero_num = strs[i].matches('0').count();
             let one_num = strs[i].matches('1').count();
-            for j in zero_num..(m as usize + 1) {
-                for k in one_num..(n as usize + 1) {
-                    dp[j][k] = std::cmp::max(
-                        dp[j][k],
-                        dp[j - zero_num][k - one_num] + 1,
+            let mut j = m;
+            while j >= zero_num as i32 {
+                let mut k = n;
+                while k >= one_num as i32 {
+                    dp[j as usize][k as usize] = std::cmp::max(
+                        dp[j as usize][k as usize],
+                        dp[j as usize - zero_num][k as usize - one_num] + 1,
                     );
-                    println!("zero = {zero_num}, one = {one_num}, i={i}, j = {j}, k = {k}, str = {}, dp[{j}][{k}] = {}",strs[i],dp[j][k]);
+                    k -= 1;
                 }
+                j -= 1;
             }
         }
 
