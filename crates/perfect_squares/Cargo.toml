@@ -1,5 +1,5 @@
 [package]
-name = "dp"
+name = "perfect_squares"
 version = "0.1.0"
 edition = "2021"
 
@@ -10,6 +10,6 @@ authors = ["Calvin <c6supper@hotmail.com>"]
 [dependencies]
 
 [lib]
-name = "dp"
+name = "perfect_squares"
 test = true            # Is tested by default.
 doc = true             # Is documented by default.
