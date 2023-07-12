@@ -27,7 +27,9 @@
 pub struct Solution {}
 
 impl Solution {
-    pub fn num_squares(n: i32) -> i32 {}
+    pub fn num_squares(n: i32) -> i32 {
+        let root = (n as f32).sqrt() as i32 + 1;
+    }
 }
 
 #[cfg(test)]
