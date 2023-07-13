@@ -29,6 +29,24 @@ pub struct Solution {}
 impl Solution {
     pub fn num_squares(n: i32) -> i32 {
         let root = (n as f32).sqrt() as i32 + 1;
+        let mut dp = vec![i32::MAX; n as usize + 1];
+        dp[0] = 0;
+
+        for i in 1..root {
+            for j in i * i..n + 1 {
+                dp[j as usize] =
+                    std::cmp::min(dp[j as usize], dp[(j - i * i) as usize] + 1);
+            }
+        }
+
+        // if cfg!(test) {
+        //     println!("n = {n}, root = {root}");
+        //     for (cap, count) in dp.iter().enumerate() {
+        //         println!("cap = {cap}, count = {count}");
+        //     }
+        // }
+
+        dp[n as usize]
     }
 }
 
@@ -42,7 +60,7 @@ mod tests {
     }
 
     #[test]
-    fn test_1() {
+    fn test_2() {
         assert_eq!(2, Solution::num_squares(13));
     }
 }
