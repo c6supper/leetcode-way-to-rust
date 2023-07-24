@@ -269,6 +269,13 @@ name = "house_robber_ii"
 version = "0.1.0"
 
 [[package]]
+name = "house_robber_iii"
+version = "0.1.0"
+dependencies = [
+ "embed-doc-image",
+]
+
+[[package]]
 name = "indexmap"
 version = "1.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"

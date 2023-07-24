@@ -1,5 +1,12 @@
 {
   "cSpell.words": [
     "doctest"
-  ]
+  ],
+  "rust-analyzer.linkedProjects": [
+    "./crates/house_robber_iii/Cargo.toml",
+    "./crates/house_robber_iii/Cargo.toml",
+    "./crates/house_robber_iii/Cargo.toml",
+    "./crates/house_robber_iii/Cargo.toml"
+  ],
+  "rust-analyzer.showUnlinkedFileNotification": false
 }
