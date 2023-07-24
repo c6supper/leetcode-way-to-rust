@@ -33,7 +33,34 @@
 pub struct Solution {}
 
 impl Solution {
-    pub fn rob(nums: Vec<i32>) -> i32 {}
+    pub fn rob(nums: Vec<i32>) -> i32 {
+        if nums.len() < 2 {
+            return nums[0];
+        }
+        let mut dp = vec![0; nums.len()];
+        dp[1] = nums[0];
+
+        for i in 2..dp.len() {
+            dp[i] = std::cmp::max(dp[i - 2] + nums[i - 1], dp[i - 1]);
+        }
+        let left_max = dp[dp.len() - 1];
+
+        if nums.len() < 2 {
+            return left_max;
+        }
+
+        let mut dp = vec![0; nums.len() + 1];
+        dp[2] = nums[1];
+        for i in 3..dp.len() {
+            dp[i] = std::cmp::max(dp[i - 2] + nums[i - 1], dp[i - 1]);
+        }
+
+        if left_max > dp[dp.len() - 1] {
+            left_max
+        } else {
+            dp[dp.len() - 1]
+        }
+    }
 }
 
 #[cfg(test)]
@@ -53,5 +80,10 @@ mod tests {
     #[test]
     fn test_3() {
         assert_eq!(3, Solution::rob(vec![1, 2, 3]));
+    }
+
+    #[test]
+    fn test_4() {
+        assert_eq!(2, Solution::rob(vec![2]));
     }
 }
