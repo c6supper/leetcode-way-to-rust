@@ -35,11 +35,15 @@ impl Solution {
         }
         let mut max_prices = vec![0; prices.len()];
         let mut max_profit = 0;
-        let mut i: usize = prices.len() - 2;
+        let mut i: i32 = prices.len() as i32 - 2;
         max_prices[prices.len() - 1] = prices[prices.len() - 1];
-        while i > 0 {
-            max_prices[i] = std::cmp::max(max_prices[i + 1], prices[i]);
-            max_profit = std::cmp::max(max_profit, max_prices[i] - prices[i]);
+        while i > -1 {
+            max_prices[i as usize] =
+                std::cmp::max(max_prices[i as usize + 1], prices[i as usize]);
+            max_profit = std::cmp::max(
+                max_profit,
+                max_prices[i as usize] - prices[i as usize],
+            );
             i -= 1;
         }
 
