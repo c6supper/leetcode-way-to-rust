@@ -31,7 +31,31 @@
 pub struct Solution {}
 
 impl Solution {
-    pub fn find_content_children(g: Vec<i32>, s: Vec<i32>) -> i32 {}
+    pub fn find_content_children(g: Vec<i32>, s: Vec<i32>) -> i32 {
+        let mut sorted_g = g;
+        let mut sorted_s = s;
+        let mut contented_num = 0;
+        sorted_g.sort();
+        sorted_s.sort();
+        let mut g_iter = sorted_g.iter();
+        let mut s_iter = sorted_s.iter();
+        let mut g_e = g_iter.next();
+        let mut s_e = s_iter.next();
+
+        loop {
+            match (g_e, s_e) {
+                (Some(g), Some(s)) => {
+                    if s >= g {
+                        g_e = g_iter.next();
+                        contented_num += 1
+                    }
+                    s_e = s_iter.next();
+                }
+                _ => break,
+            }
+        }
+        contented_num
+    }
 }
 
 #[cfg(test)]
