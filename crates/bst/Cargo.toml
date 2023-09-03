@@ -22,7 +22,3 @@ features = ["doc-images"]
 name = "bst"
 test = true            # Is tested by default.
 doc = true             # Is documented by default.
-
-[[bin]]
-name = "bst"
-path= "src/bin.rs"
