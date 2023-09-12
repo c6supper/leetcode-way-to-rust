@@ -175,21 +175,21 @@ impl Solution {
         root: Option<Rc<RefCell<TreeNode>>>,
     ) -> Vec<i32> {
         let mut ordered_bst: Vec<i32> = Vec::new();
-        let mut stack: Vec<Option<Rc<RefCell<TreeNode>>>> = Vec::new();
+        let mut stack: Vec<Rc<RefCell<TreeNode>>> = Vec::new();
 
         let mut node: Option<Rc<RefCell<TreeNode>>> = root;
 
         while node.is_some() || !stack.is_empty() {
             match node {
                 None => {
-                    node = stack.pop().unwrap();
+                    node = Some(stack.pop().unwrap());
                     if let Some(n) = node {
                         ordered_bst.push(n.borrow().val);
                         node = n.borrow().right.clone();
                     }
                 }
                 Some(n) => {
-                    stack.push(Some(n.clone()));
+                    stack.push(n.clone());
                     node = n.borrow().left.clone();
                 }
             }
