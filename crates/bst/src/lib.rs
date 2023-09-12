@@ -117,7 +117,6 @@ impl TreeNode {
     }
 }
 
-use std::borrow::BorrowMut;
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
@@ -180,16 +179,17 @@ impl Solution {
 
         let mut node: Option<Rc<RefCell<TreeNode>>> = root;
 
-        while node.is_none() || !stack.is_empty() {
+        while node.is_some() || !stack.is_empty() {
             match node {
                 None => {
                     node = stack.pop().unwrap();
                     if let Some(n) = node {
                         ordered_bst.push(n.borrow().val);
+                        node = n.borrow().right.clone();
                     }
                 }
                 Some(n) => {
-                    stack.push(node);
+                    stack.push(Some(n.clone()));
                     node = n.borrow().left.clone();
                 }
             }
@@ -371,6 +371,41 @@ mod tests {
         assert_eq!(
             vec![1],
             Solution::inorder_traverse_recursively(
+                Solution::construct_by_preorder_traverse(&mut vec![1])
+            )
+        );
+    }
+
+    #[test]
+    fn test_inorder_traverse_iteratively_1() {
+        assert_eq!(
+            vec![1, 3, 2],
+            Solution::inorder_traverse_iteratively(
+                Solution::construct_by_preorder_traverse(&mut vec![
+                    1,
+                    i32::MIN,
+                    2,
+                    3
+                ])
+            )
+        );
+    }
+
+    #[test]
+    fn test_inorder_traverse_iteratively_2() {
+        assert_eq!(
+            Vec::<i32>::new(),
+            Solution::inorder_traverse_iteratively(
+                Solution::construct_by_preorder_traverse(&mut vec![])
+            )
+        );
+    }
+
+    #[test]
+    fn test_inorder_traverse_iteratively_3() {
+        assert_eq!(
+            vec![1],
+            Solution::inorder_traverse_iteratively(
                 Solution::construct_by_preorder_traverse(&mut vec![1])
             )
         );
