@@ -244,6 +244,38 @@ impl Solution {
         ordered_bst
     }
 
+    pub fn postorder_traverse_iteratively(
+        root: Option<Rc<RefCell<TreeNode>>>,
+    ) -> Vec<i32> {
+        let mut ordered_bst: Vec<i32> = Vec::new();
+        let mut stack: Vec<Rc<RefCell<TreeNode>>> = Vec::new();
+
+        let mut node: Option<Rc<RefCell<TreeNode>>> = root;
+
+        while node.is_some() || !stack.is_empty() {
+            match node {
+                None => {
+                    node = Some(stack.pop().unwrap());
+                    if let Some(n) = node {
+                        node = n.borrow().right.clone();
+
+                        if n.borrow().right.is_none() {
+                            ordered_bst.push(n.borrow().val);
+                        } else {
+                            stack.push(n);
+                        }
+                    }
+                }
+                Some(n) => {
+                    stack.push(n.clone());
+                    node = n.borrow().left.clone();
+                }
+            }
+        }
+
+        ordered_bst
+    }
+
     pub fn construct_by_preorder_traverse(
         preorder_vec: &mut Vec<i32>,
     ) -> Option<Rc<RefCell<TreeNode>>> {
@@ -441,6 +473,41 @@ mod tests {
         assert_eq!(
             vec![1],
             Solution::postorder_traverse_recursively(
+                Solution::construct_by_preorder_traverse(&mut vec![1])
+            )
+        );
+    }
+
+    #[test]
+    fn test_postorder_traverse_iteratively_1() {
+        assert_eq!(
+            vec![3, 2, 1],
+            Solution::postorder_traverse_iteratively(
+                Solution::construct_by_preorder_traverse(&mut vec![
+                    1,
+                    i32::MIN,
+                    2,
+                    3
+                ])
+            )
+        );
+    }
+
+    #[test]
+    fn test_postorder_traverse_iteratively_2() {
+        assert_eq!(
+            Vec::<i32>::new(),
+            Solution::postorder_traverse_iteratively(
+                Solution::construct_by_preorder_traverse(&mut vec![])
+            )
+        );
+    }
+
+    #[test]
+    fn test_postorder_traverse_iteratively_3() {
+        assert_eq!(
+            vec![1],
+            Solution::postorder_traverse_iteratively(
                 Solution::construct_by_preorder_traverse(&mut vec![1])
             )
         );
