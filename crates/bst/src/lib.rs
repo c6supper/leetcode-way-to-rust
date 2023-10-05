@@ -117,7 +117,6 @@ impl TreeNode {
     }
 }
 
-use std::borrow::Borrow;
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
@@ -245,31 +244,34 @@ impl Solution {
         ordered_bst
     }
 
-    // pub fn postorder_traverse_iteratively(
-    //     root: Option<Rc<RefCell<TreeNode>>>,
-    // ) -> Vec<i32> {
-    //     let mut ordered_bst: Vec<i32> = Vec::new();
-    //     let mut pre_stack: Vec<Rc<RefCell<TreeNode>>> = Vec::new();
-    //     let mut post_stack: Vec<Rc<RefCell<TreeNode>>> = Vec::new();
+    pub fn postorder_traverse_iteratively(
+        root: Option<Rc<RefCell<TreeNode>>>,
+    ) -> Vec<i32> {
+        let mut pre_stack: Vec<Rc<RefCell<TreeNode>>> = Vec::new();
+        let mut post_stack: Vec<Rc<RefCell<TreeNode>>> = Vec::new();
 
-    //     pre_stack.push(root.borrow().unwrap());
+        if root.is_none() {
+            return vec![];
+        }
 
-    //     while !pre_stack.is_empty() {
-    //         let mut node: Option<Rc<RefCell<TreeNode>>> = pre_stack.pop();
+        pre_stack.push(root.unwrap());
 
-    //         if let Some(n:Rc<RefCell<TreeNode>>) = node {
-    //             if n.borrow().right.is_none() {
-    //                 pre_stack.push(n.borrow().right.clone());
-    //             }
-    //             if n.borrow().left.is_none() {
-    //                 pre_stack.push(n.borrow().left.clone());
-    //             }
-    //         }
-    //         post_stack.push(node);
-    //     }
+        while !pre_stack.is_empty() {
+            let node: Option<Rc<RefCell<TreeNode>>> = pre_stack.pop();
 
-    //     ordered_bst
-    // }
+            if let Some(n) = node {
+                if n.borrow().right.is_some() {
+                    pre_stack.push(n.borrow().right.clone().unwrap());
+                }
+                if n.borrow().left.is_some() {
+                    pre_stack.push(n.borrow().left.clone().unwrap());
+                }
+                post_stack.push(n);
+            }
+        }
+
+        post_stack.iter().rev().map(|x| x.borrow().val).collect()
+    }
 
     pub fn construct_by_preorder_traverse(
         preorder_vec: &mut Vec<i32>,
@@ -473,38 +475,38 @@ mod tests {
         );
     }
 
-    // #[test]
-    // fn test_postorder_traverse_iteratively_1() {
-    //     assert_eq!(
-    //         vec![3, 2, 1],
-    //         Solution::postorder_traverse_iteratively(
-    //             Solution::construct_by_preorder_traverse(&mut vec![
-    //                 1,
-    //                 i32::MIN,
-    //                 2,
-    //                 3
-    //             ])
-    //         )
-    //     );
-    // }
+    #[test]
+    fn test_postorder_traverse_iteratively_1() {
+        assert_eq!(
+            vec![3, 2, 1],
+            Solution::postorder_traverse_iteratively(
+                Solution::construct_by_preorder_traverse(&mut vec![
+                    1,
+                    i32::MIN,
+                    2,
+                    3
+                ])
+            )
+        );
+    }
 
-    // #[test]
-    // fn test_postorder_traverse_iteratively_2() {
-    //     assert_eq!(
-    //         Vec::<i32>::new(),
-    //         Solution::postorder_traverse_iteratively(
-    //             Solution::construct_by_preorder_traverse(&mut vec![])
-    //         )
-    //     );
-    // }
+    #[test]
+    fn test_postorder_traverse_iteratively_2() {
+        assert_eq!(
+            Vec::<i32>::new(),
+            Solution::postorder_traverse_iteratively(
+                Solution::construct_by_preorder_traverse(&mut vec![])
+            )
+        );
+    }
 
-    // #[test]
-    // fn test_postorder_traverse_iteratively_3() {
-    //     assert_eq!(
-    //         vec![1],
-    //         Solution::postorder_traverse_iteratively(
-    //             Solution::construct_by_preorder_traverse(&mut vec![1])
-    //         )
-    //     );
-    // }
+    #[test]
+    fn test_postorder_traverse_iteratively_3() {
+        assert_eq!(
+            vec![1],
+            Solution::postorder_traverse_iteratively(
+                Solution::construct_by_preorder_traverse(&mut vec![1])
+            )
+        );
+    }
 }
