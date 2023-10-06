@@ -7,6 +7,25 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug unit tests in library 'bst_level_traverse'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=bst_level_traverse"
+        ],
+        "filter": {
+          "name": "bst_level_traverse",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug unit tests in library 'add_two_numbers'",
       "cargo": {
         "args": [
