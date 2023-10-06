@@ -64,9 +64,8 @@ impl Solution {
         queue.push(root);
 
         while !queue.is_empty() {
-            let mut level_size = queue.len();
             let mut sub_queue: Vec<i32> = Vec::new();
-            while level_size > 0 {
+            for _ in 0..queue.len() {
                 let node = queue.remove(0);
                 match node {
                     Some(n) => {
@@ -87,8 +86,6 @@ impl Solution {
                     }
                     None => (),
                 }
-
-                level_size -= 1;
             }
             order_bst.push(sub_queue);
         }
