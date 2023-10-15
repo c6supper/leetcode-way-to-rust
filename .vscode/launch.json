@@ -26,6 +26,25 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug unit tests in library 'symmetric_tree'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=symmetric_tree"
+        ],
+        "filter": {
+          "name": "symmetric_tree",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug unit tests in library 'add_two_numbers'",
       "cargo": {
         "args": [

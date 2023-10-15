@@ -1,5 +1,5 @@
 [package]
-name = "bst_level_traverse"
+name = "symmetric_tree"
 version = "0.1.0"
 edition = "2021"
 
@@ -19,6 +19,6 @@ doc-images = []
 features = ["doc-images"]
 
 [lib]
-name = "bst_level_traverse"
+name = "symmetric_tree"
 test = true            # Is tested by default.
 doc = true             # Is documented by default.

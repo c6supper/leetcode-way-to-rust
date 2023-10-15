@@ -54,7 +54,79 @@ impl TreeNode {
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
-    pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {}
+    pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        if let Some(node) = root {
+            return Solution::bst_left_traversal(node.borrow().left.clone())
+                .eq(&Solution::bst_right_traversal(
+                    node.borrow().right.clone(),
+                ));
+        } else {
+            true
+        }
+    }
+
+    pub fn bst_left_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut stack = Vec::new();
+        let mut ordered_bst = Vec::new();
+
+        if root.is_none() {
+            return ordered_bst;
+        }
+
+        stack.push(root);
+
+        while !stack.is_empty() {
+            if let Some(node) = stack.pop().unwrap() {
+                stack.push(Some(node.clone()));
+                stack.push(None);
+
+                if node.borrow().right.is_some() {
+                    stack.push(node.borrow().right.clone());
+                }
+                if node.borrow().left.is_some() {
+                    stack.push(node.borrow().left.clone());
+                }
+            } else {
+                let node = stack.pop().unwrap();
+                ordered_bst.push(node.unwrap().borrow().val);
+            }
+        }
+
+        ordered_bst
+    }
+
+    pub fn bst_right_traversal(
+        root: Option<Rc<RefCell<TreeNode>>>,
+    ) -> Vec<i32> {
+        let mut stack = Vec::new();
+        let mut ordered_bst = Vec::new();
+
+        if root.is_none() {
+            return ordered_bst;
+        }
+
+        stack.push(root);
+
+        while !stack.is_empty() {
+            if let Some(node) = stack.pop().unwrap() {
+                stack.push(Some(node.clone()));
+                stack.push(None);
+
+                if node.borrow().left.is_some() {
+                    stack.push(node.borrow().left.clone());
+                }
+
+                if node.borrow().right.is_some() {
+                    stack.push(node.borrow().right.clone());
+                }
+            } else {
+                let node = stack.pop().unwrap();
+                ordered_bst.push(node.unwrap().borrow().val);
+            }
+        }
+
+        ordered_bst
+    }
 
     pub fn construct_by_preorder_traverse(
         preorder_vec: &mut Vec<i32>,
@@ -88,7 +160,23 @@ mod tests {
         assert_eq!(
             true,
             Solution::is_symmetric(Solution::construct_by_preorder_traverse(
-                &mut vec![1, 2, 2, 3, 4, 4, 3]
+                &mut vec![
+                    1,
+                    2,
+                    3,
+                    i32::MIN,
+                    i32::MIN,
+                    4,
+                    i32::MIN,
+                    i32::MIN,
+                    2,
+                    4,
+                    i32::MIN,
+                    i32::MIN,
+                    3,
+                    i32::MIN,
+                    i32::MIN
+                ]
             ))
         );
     }
@@ -98,7 +186,7 @@ mod tests {
         assert_eq!(
             false,
             Solution::is_symmetric(Solution::construct_by_preorder_traverse(
-                &mut vec![1,2,i32::MIN,3,i32:MIN,2,i32::MIN,3]
+                &mut vec![1, 2, i32::MIN, 3, i32::MIN, 2, i32::MIN, 3]
             ))
         );
     }
