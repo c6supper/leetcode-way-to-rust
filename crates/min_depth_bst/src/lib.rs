@@ -1,8 +1,11 @@
-//! 102. Binary Tree Level Order Traversal
-//! Medium
+//! 111. Minimum Depth of Binary Tree
+//! Easy
 //!
-//! Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+//! Given a binary tree, find its minimum depth.
 //!
+//! The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+//!
+//! Note: A leaf is a node with no children.
 #![cfg_attr(feature = "doc-images",
 cfg_attr(all(),
 doc = ::embed_doc_image::embed_image!("example1", "resource/tree1.jpg")))]
@@ -13,23 +16,19 @@ doc = ::embed_doc_image::embed_image!("example1", "resource/tree1.jpg")))]
 )]
 //! Example 1:
 //!
-//!
 //! Input: root = [3,9,20,null,null,15,7]
-//! Output: [[3],[9,20],[15,7]]
+//! Output: 2
+//!
 //! Example 2:
 //!
-//! Input: root = [1]
-//! Output: [[1]]
-//! Example 3:
-//!
-//! Input: root = []
-//! Output: []
+//! Input: root = [2,null,3,null,4,null,5,null,6]
+//! Output: 5
 //!  
 //!
 //! Constraints:
 //!
-//! The number of nodes in the tree is in the range [0, 2000].
-//! -1000 <= Node.val <= 1000
+//! The number of nodes in the tree is in the range [0, 104].
+//! -100 <= Node.val <= 100
 
 pub struct Solution {}
 
@@ -54,34 +53,34 @@ impl TreeNode {
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
-    pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+    pub fn min_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         let mut queue = Vec::new();
-        if root.is_none() {
-            return true;
-        }
-        let node = root.unwrap();
-        queue.push(node.borrow().left.clone());
-        queue.push(node.borrow().right.clone());
-        while !queue.is_empty() {
-            let left = queue.remove(0);
-            let right = queue.remove(0);
+        let mut depth = 0;
 
-            match (left, right) {
-                (None, Some(_)) | (Some(_), None) => return false,
-                (Some(left), Some(right)) => {
-                    if left.borrow().val != right.borrow().val {
-                        return false;
-                    }
-                    queue.push(left.borrow().left.clone());
-                    queue.push(right.borrow().right.clone());
-                    queue.push(left.borrow().right.clone());
-                    queue.push(right.borrow().left.clone());
+        if root.is_none() {
+            return 0;
+        }
+
+        queue.push(root);
+
+        while !queue.is_empty() {
+            depth += 1;
+            for _ in 0..queue.len() {
+                let node = queue.remove(0).unwrap();
+                if node.borrow().left.is_none() && node.borrow().right.is_none()
+                {
+                    return depth;
                 }
-                _ => (),
+                if node.borrow().left.is_some() {
+                    queue.push(node.borrow().left.clone());
+                }
+                if node.borrow().right.is_some() {
+                    queue.push(node.borrow().right.clone());
+                }
             }
         }
 
-        true
+        depth
     }
 
     pub fn construct_by_preorder_traverse(
@@ -112,24 +111,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_is_symmetric_1() {
+    fn test_min_depth_1() {
         assert_eq!(
-            true,
-            Solution::is_symmetric(Solution::construct_by_preorder_traverse(
+            2,
+            Solution::min_depth(Solution::construct_by_preorder_traverse(
                 &mut vec![
-                    1,
-                    2,
                     3,
+                    9,
                     i32::MIN,
                     i32::MIN,
-                    4,
+                    20,
+                    15,
                     i32::MIN,
                     i32::MIN,
-                    2,
-                    4,
-                    i32::MIN,
-                    i32::MIN,
-                    3,
+                    7,
                     i32::MIN,
                     i32::MIN
                 ]
@@ -138,43 +133,33 @@ mod tests {
     }
 
     #[test]
-    fn test_is_symmetric_2() {
+    fn test_min_depth_2() {
         assert_eq!(
-            false,
-            Solution::is_symmetric(Solution::construct_by_preorder_traverse(
-                &mut vec![1, 2, i32::MIN, 3, i32::MIN, 2, i32::MIN, 3]
+            5,
+            Solution::min_depth(Solution::construct_by_preorder_traverse(
+                &mut vec![
+                    2,
+                    i32::MIN,
+                    3,
+                    i32::MIN,
+                    4,
+                    i32::MIN,
+                    5,
+                    i32::MIN,
+                    6,
+                    i32::MIN,
+                    i32::MIN
+                ]
             ))
         );
     }
 
     #[test]
-    fn test_is_symmetric_3() {
+    fn test_min_depth_3() {
         assert_eq!(
-            true,
-            Solution::is_symmetric(Solution::construct_by_preorder_traverse(
+            0,
+            Solution::min_depth(Solution::construct_by_preorder_traverse(
                 &mut vec![]
-            ))
-        );
-    }
-
-    #[test]
-    fn test_is_symmetric_4() {
-        assert_eq!(
-            false,
-            Solution::is_symmetric(Solution::construct_by_preorder_traverse(
-                &mut vec![
-                    1,
-                    2,
-                    i32::MIN,
-                    3,
-                    i32::MIN,
-                    i32::MIN,
-                    2,
-                    i32::MIN,
-                    3,
-                    i32::MIN,
-                    i32::MIN
-                ]
             ))
         );
     }

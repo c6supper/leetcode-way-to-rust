@@ -366,12 +366,26 @@ name = "longest_substring_no_repeat"
 version = "0.1.0"
 
 [[package]]
+name = "max_depth_bst"
+version = "0.1.0"
+dependencies = [
+ "embed-doc-image",
+]
+
+[[package]]
 name = "memoffset"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5a634b1c61a95585bd15607c6ab0c4e5b226e695ff2800ba0cdccddf208c406c"
 dependencies = [
  "autocfg",
+]
+
+[[package]]
+name = "min_depth_bst"
+version = "0.1.0"
+dependencies = [
+ "embed-doc-image",
 ]
 
 [[package]]
