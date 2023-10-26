@@ -63,7 +63,31 @@ impl TreeNode {
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
-    pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {}
+    pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        return Solution::get_height(root) != -1;
+    }
+
+    pub fn get_height(node: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        let (mut left_height, mut right_height) = (-1, -1);
+
+        if node.is_none() {
+            return 0;
+        }
+
+        if let Some(n) = node {
+            left_height = Solution::get_height(n.borrow().left.clone());
+            right_height = Solution::get_height(n.borrow().right.clone());
+        }
+
+        if i32::abs(left_height - right_height) > 1
+            || (left_height < 0 && right_height < 0)
+            || (left_height == -1 || right_height == -1)
+        {
+            return -1;
+        }
+
+        return i32::max(left_height, right_height) + 1;
+    }
 
     pub fn construct_by_preorder_traverse(
         preorder_vec: &mut Vec<i32>,
@@ -146,6 +170,27 @@ mod tests {
             true,
             Solution::is_balanced(Solution::construct_by_preorder_traverse(
                 &mut vec![]
+            ))
+        );
+    }
+
+    #[test]
+    fn test_is_balanced_4() {
+        assert_eq!(
+            false,
+            Solution::is_balanced(Solution::construct_by_preorder_traverse(
+                &mut vec![
+                    1,
+                    2,
+                    i32::MIN,
+                    3,
+                    i32::MIN,
+                    4,
+                    i32::MIN,
+                    5,
+                    i32::MIN,
+                    i32::MIN
+                ]
             ))
         );
     }
